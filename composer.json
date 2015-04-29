@@ -1,0 +1,23 @@
+{
+    "name": "access9/mastercrack",
+    "description": "CLI utility to help calculate the combination to your master combination lock.",
+    "keywords": ["masterlock","lock crack", "cli"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brian Glover",
+            "email": "brian@access9.net"
+        }
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    },
+    "bin": ["mastercrack"],
+    "autoload": {
+        "psr-4": {
+            "Access9\\": "src/"
+        }
+    }
+}
