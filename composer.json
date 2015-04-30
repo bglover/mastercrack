@@ -1,6 +1,6 @@
 {
     "name": "access9/mastercrack",
-    "description": "CLI utility to help calculate the combination to your master combination lock.",
+    "description": "A PHP class to help calculate the combination to your masterlock combination lock.",
     "keywords": ["masterlock","lock crack", "cli"],
     "license": "MIT",
     "authors": [

@@ -25,7 +25,7 @@ $m->lp1 = trim(fgets(STDIN));
 echo 'Lock Position Second: ';
 $m->lp2 = trim(fgets(STDIN));
 
-echo '       Resistance: ';
+echo 'Resistance: ';
 $m->resist = trim(fgets(STDIN));
 
 // Calculate the combination.
