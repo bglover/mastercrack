@@ -1,0 +1,73 @@
+#!env php
+<?php
+require_once 'vendor/autoload.php';
+
+$cli         = new League\CLImate\CLImate;
+$masterCrack = new Access9\MasterCrack();
+$cli->addArt(__DIR__ . '/art')
+    ->clear()
+    ->draw('lock');
+
+$input = $cli
+    ->br()
+    ->green()->bold()->out('1. Find the "First Locked Position"')
+    ->out('  1. Set the dial to 0.')
+    ->out('  2. Apply full pressure upward on the shackle as if trying to open it.')
+    ->out('  3. Rotate dial to the left (towards 10) hard until the dial gets locked.')
+    ->out('  4. Notice how the dial is locked into a small groove.')
+    ->out('     a. If you\'re directly between two digits such as 3 and 4,')
+    ->out('        release the shackle and turn the dial left further until')
+    ->out('        you\'re into the next locked groove.')
+    ->out('     b. However, if the dial is between two half digits (e.g., 2.5 and 3.5),')
+    ->out('        then enter the digit in-between (e.g., 3) into First Locked Position below.')
+    ->br();
+
+$input = $cli->bold()->input('First Locked Position:');
+try {
+    $masterCrack->setFirstLockPosition((float) $input->prompt());
+} catch (\InvalidArgumentException $e) {
+    $cli->error($e->getMessage());
+    exit(1);
+}
+
+$input = $cli
+    ->br()
+    ->green()->bold()->out('2. Find the "Second Locked Position"')
+    ->out('  Do all of the above again until you find the second digit below 11 that is')
+    ->out('  between two half digits (e.g., 5.5 and 6.5), and enter the whole number (e.g., 7)')
+    ->out('  into Second Locked Position below.')
+    ->br()
+    ->bold()->input('Second Locked Position:');
+try {
+    $masterCrack->setSecondLockPosition((float) $input->prompt());
+} catch (\InvalidArgumentException $e) {
+    $cli->error($e->getMessage());
+    exit(1);
+}
+
+$input = $cli
+    ->br()
+    ->green()->bold()->out('3. Find the "Resistant Location"')
+    ->out('  1. Apply half as much pressure to the shackle so that you can turn the dial.')
+    ->out('  2. Rotate dial to the right until you feel resistance.')
+    ->out('     - Rotate the dial to the right several more times to ensure you\'re feeling')
+    ->out('       resistance at the same exact location.')
+    ->out('  3. Enter this number into Resistant Location below.')
+    ->out('     - If the resistance begins at a half number, such as 14.5, enter 14.5.')
+    ->br()
+    ->bold()->input('Resistant Location:');
+$masterCrack->setResistance((float) $input->prompt());
+
+
+// Calculate the combination.
+$masterCrack->calc();
+
+$cli->br()
+    ->red()->bold()->inline('First:  ')
+    ->out($masterCrack->getFirst());
+
+$cli->red()->bold()->inline('Second: ')
+    ->out(implode(', ', $masterCrack->getSecond()));
+
+$cli->red()->bold()->inline('Third:  ')
+    ->out(implode(', ', $masterCrack->getThird()));
