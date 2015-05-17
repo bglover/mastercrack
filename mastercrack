@@ -1,6 +1,11 @@
 #!env php
 <?php
-require_once 'vendor/autoload.php';
+// Installed via composer?
+if (file_exists($a = __DIR__ . '/../../autoload.php')) {
+    require_once $a;
+} else {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
 
 $cli         = new League\CLImate\CLImate;
 $masterCrack = new Access9\MasterCrack();
