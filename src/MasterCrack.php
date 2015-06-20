@@ -1,6 +1,7 @@
 <?php
 namespace Access9;
 
+use InvalidArgumentException;
 use UnexpectedValueException;
 
 /**
@@ -46,39 +47,10 @@ class MasterCrack
     private $mod;
 
     /**
-     * Public setter
-     *
-     * @deprecated
-     * @param string $key
-     * @param mixed  $val
-     */
-    public function __set($key, $val)
-    {
-        switch ($key) {
-            case 'lp1':
-                $this->setFirstLockPosition($val);
-                break;
-            case 'lp2':
-                $this->setSecondLockPosition($val);
-                break;
-            case 'resist':
-                $this->setResistance($val);
-                break;
-            default:
-                break;
-        }
-
-        trigger_error(
-            'Direct access to class properties will be removed in a future release. '
-            . 'Use the appropriate set method instead.',
-            E_USER_DEPRECATED
-        );
-    }
-
-    /**
      * Set the value of the First Lock Position.
      *
      * @param float $val
+     * @throws InvalidArgumentException
      * @return MasterCrack
      */
     public function setFirstLockPosition($val)
@@ -92,6 +64,7 @@ class MasterCrack
      * Set the value of the Second Lock Position.
      *
      * @param float $val
+     * @throws InvalidArgumentException
      * @return MasterCrack
      */
     public function setSecondLockPosition($val)
@@ -110,21 +83,6 @@ class MasterCrack
         $this->resistance = $resistance;
 
         return $this;
-    }
-
-    /**
-     * Validate that the given input is between 1 and 10.
-     *
-     * @throws \InvalidArgumentException
-     * @param int|float $val
-     */
-    private function validatePosition($val)
-    {
-        if ($val < 1 || $val > 10) {
-            throw new \InvalidArgumentException(
-                'Position must be a number between 1 and 10 (inclusive)'
-            );
-        }
     }
 
     /**
@@ -182,8 +140,24 @@ class MasterCrack
     }
 
     /**
+     * Validate that the given input is between 1 and 10.
+     *
+     * @throws InvalidArgumentException
+     * @param int|float $val
+     */
+    private function validatePosition($val)
+    {
+        if ($val < 1 || $val > 10) {
+            throw new InvalidArgumentException(
+                'Position must be a number between 1 and 10 (inclusive)'
+            );
+        }
+    }
+
+    /**
      * Set the first combination digit.
      *
+     * @throws UnexpectedValueException
      * @return MasterCrack
      */
     private function setFirst()
@@ -262,14 +236,15 @@ class MasterCrack
     private function setThird()
     {
         for ($i = 0; $i < 4; $i++) {
-            $lockPositionOneTest = ((10 * $i) + $this->firstLockPosition) % 4;
+            $x = 10 * $i;
+            $lockPositionOneTest = ($x + $this->firstLockPosition) % 4;
             if ($lockPositionOneTest === $this->mod) {
-                $this->third[] = (10 * $i) + $this->firstLockPosition;
+                $this->third[] = $x + $this->firstLockPosition;
             }
 
-            $lockPositionTwoTest = ((10 * $i) + $this->secondLockPosition) % 4;
+            $lockPositionTwoTest = ($x + $this->secondLockPosition) % 4;
             if ($lockPositionTwoTest === $this->mod) {
-                $this->third[] = (10 * $i) + $this->secondLockPosition;
+                $this->third[] = $x + $this->secondLockPosition;
             }
         }
 
