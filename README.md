@@ -117,4 +117,4 @@ Third:  4, 24
 ```
 
 # Credits
-Only the PHP code was written by me. The forumla and help text were taken from the website [How to crack any master combination lock in 8 tries or less](http://null-byte.wonderhowto.com/how-to/crack-any-master-combination-lock-8-tries-less-using-calculator-0161629)
+Only the PHP code was written by me. The formula and help text were taken from the website [How to crack any master combination lock in 8 tries or less](http://null-byte.wonderhowto.com/how-to/crack-any-master-combination-lock-8-tries-less-using-calculator-0161629)
